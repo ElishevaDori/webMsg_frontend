@@ -39,7 +39,8 @@ class LoginPage extends React.Component {
                     window.location.reload();
                 } else {
                     this.setState({
-                        showError: true
+                        showError: true,
+                        response: "failed to log in"
                     })
                 }
             })
