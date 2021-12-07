@@ -27,24 +27,23 @@ class LoginPage extends React.Component {
 
     login = () => {
         axios.get("http://localhost:8989/sign-in", {
-            params: {
-                username: this.state.username,
-                password: this.state.password
-            }
-        })
-            .then((response) => {
-                if (response.data && response.data.length > 0) {
-                    const cookies = new Cookies();
-                    cookies.set("logged_in", response.data);
-                    window.location.reload();
-                } else {
-                    this.setState({
-                        showError: true,
-                        response: "failed to log in"
-                    })
+                params: {
+                    username: this.state.username,
+                    password: this.state.password
                 }
             })
-
+                .then((response) => {
+                    if (response.data && response.data.length > 0) {
+                        const cookies = new Cookies();
+                        cookies.set("logged_in", response.data);
+                        window.location.reload();
+                    } else {
+                        this.setState({
+                            showError: true,
+                            response: "failed to log in"
+                        })
+                    }
+                })
     }
 
     signUp = () => {
@@ -55,7 +54,7 @@ class LoginPage extends React.Component {
             }
         })
             .then((response) => {
-                if (response) {
+                if (response.data) {
                     this.setState({
                         response: "Your account has been created!"
                     })
