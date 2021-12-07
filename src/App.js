@@ -2,13 +2,11 @@ import './App.css';
 import * as React from "react";
 import {BrowserRouter} from "react-router-dom";
 import ProfilePage from "./ProfilePage";
-import PostsPage from "./PostsPage";
 import {Route} from "react-router";
 import NavigationBar from "./NavigationBar";
 import LoginPage from "./LoginPage";
 import Cookies from "universal-cookie";
-import FollowedPage from "./FollowedPage";
-import FollowedProfilePage from "./FollowedProfilePage";
+import MessagePage from "./MessagePage";
 
 class App extends React.Component {
 
@@ -37,9 +35,7 @@ class App extends React.Component {
                                 <NavigationBar/>
                                 <Route path={"/"} component={ProfilePage} exact={true}/>
                                 <Route path={"/profile"} component={ProfilePage} exact={true}/>
-                                <Route path={"/posts"} component={PostsPage} exact={true}/>
-                                <Route path={"/followed"} component={FollowedPage} exact={true}/>
-                                <Route path={"/user/:userId"} component={FollowedProfilePage}/>
+                                <Route path={"/myMessages"} component={MessagePage} exact={true}/>
                             </div>
                             :
                             <div>
