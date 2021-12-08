@@ -7,7 +7,8 @@ class NavigationBar extends React.Component {
     state = {
         links: [{title: "Profile", path: "/profile"}
             , {title: "About", path: "/about"},
-            {title: "My Messages", path: "/myMessages"}
+            {title: "My Messages", path: "/myMessages"},
+            {title: "New Message", path: "/NewMessagePage"}
 
         ]
     }
