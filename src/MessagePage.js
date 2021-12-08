@@ -8,6 +8,7 @@ class MessagePage extends React.Component {
         token: "",
         subject:"",
         content: "",
+        date:"",
         messages: []
     }
 
@@ -82,14 +83,37 @@ class MessagePage extends React.Component {
 
     }
 
+    MessageWasRead = (id) =>{
+        console.log("MessageWasRead")
+        const cookies = new Cookies();
+        axios.get("http://localhost:8989/Message_was_read", {
+            params: {
+                token: cookies.get("logged_in"),
+                idOfMessage : id
+            }
+
+        }).then((response) => {
+            if (response.data) {
+                this.setState({
+                    response: "The Message Message Was Read"
+                })
+            } else {
+                this.setState({
+                    response: "ERROR"
+                })
+            }
+        })
+
+    }
+
     render() {
         return (
             <div>
                 {
-                        this.state.message.map(msg => {
+                        this.state.messages.map(msg => {
                             return (
                                 <div style={{borderBottom: "1px solid black", padding: "10px", width: "300px"}}>
-                                    <i style={{fontSize: "12px"}}>
+                                   /* <i style={{fontSize: "12px"}}>
                                         {msg.subject}
                                     </i>
                                     <i style={{fontSize: "10px"}}>
@@ -99,6 +123,9 @@ class MessagePage extends React.Component {
                                         {msg.date}
                                     </p>
                                     <button style={{fontSize: "5px"}} onClick={() => this.deleteMessageById(msg.id)}>
+                                        X
+                                    </button>
+                                    <button style={{fontSize: "5px"}} onClick={() => this.MessageWasRead(msg.id)}>
                                         X
                                     </button>
                                 </div>
