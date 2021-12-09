@@ -8,7 +8,9 @@ class LoginPage extends React.Component {
         username: "",
         password: "",
         showError: false,
-        response: ""
+        response: "",
+        validPhoneNumber: "",
+        validStrongPassword: ""
     }
 
     onUsernameChange = (e) => {
@@ -46,26 +48,41 @@ class LoginPage extends React.Component {
                 })
     }
 
-    signUp = () => {
-        axios.get("http://localhost:8989/create-account", {
-            params: {
-                username: this.state.username,
-                password: this.state.password
-            }
-        })
-            .then((response) => {
-                if (response.data) {
-                    this.setState({
-                        response: "Your account has been created!"
-                    })
-                } else {
-                    this.setState({ response: "This username is already taken"})
+    signUp = () =>{
+        this.setState({validPhoneNumber:"",validStrongPassword:"",response:""})
+        let reg = new RegExp(/[0][5][023458]\d{7}/);
+        const validPhoneNumber = reg.test(this.state.username) && this.state.username.length === 10;
+        if(!validPhoneNumber){this.setState({validPhoneNumber: "* your phone number isn't valid"})}
+        const validStrongPassword = (/[a-zA-Z]/g.test(this.state.password) && /\d/g.test(this.state.password) && 6<= this.state.password.length);
+        if(!validStrongPassword){this.setState({validStrongPassword: "* not a strong password, must contain: 6 letters long or more, needs at least one Uppercase and lower case character, must not contain symbols"})}
+        if(validPhoneNumber && validStrongPassword) {
+            axios.get("http://localhost:8989/create-account", {
+                params: {
+                    username: this.state.username,
+                    password: this.state.password
                 }
             })
+                .then((response) => {
+                    console.log(response.data)
+                    if (response.data) {
+                        this.setState({
+                            response: "Your account has been created!",
+                            validPhoneNumber:"",
+                            validStrongPassword:"",
+                            showError: true,
+                        })
+                    } else {
+                        this.setState({response: "This username is already taken", showError: true})
+                    }
+                })
+        }
+        else{
+            this.setState({
+                showError: true
+            })
+        }
     }
-
     render() {
-
 
         const inputStyle = {
             margin: "10px",
@@ -89,7 +106,7 @@ class LoginPage extends React.Component {
             marginTop: "20px"
         }
 
-        const hasRequiredDetails = !(this.state.username == "" || this.state.password == "");
+        const hasRequiredDetails = !(this.state.username === "" || this.state.password === "");
 
         return (
             <div style={{margin: "auto", width: "50%", padding: "10px"}}>
@@ -102,7 +119,7 @@ class LoginPage extends React.Component {
                     <input style={inputStyle}
                            onChange={this.onUsernameChange}
                            value={this.state.username}
-                           placeholder={"Enter username"}
+                           placeholder={"Enter PhoneNumber"}
                     />
                     <input style={inputStyle}
                            onChange={this.onPasswordChange}
@@ -118,6 +135,8 @@ class LoginPage extends React.Component {
 
                 </fieldset>
                 <div style={{color: "red"}}>{this.state.response}</div>
+                <div style={{color: "red"}}>{this.state.validStrongPassword}</div>
+                <div style={{color: "red"}}>{this.state.validPhoneNumber}</div>
             </div>
         )
     }
