@@ -12,6 +12,7 @@ class NewMessagePage extends React.Component{
         receiverId:" "
 
     }
+
     updateSubject = (e)=>{
         let sub = e.target.value;
         this.setState({

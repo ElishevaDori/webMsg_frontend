@@ -62,6 +62,7 @@ class LoginPage extends React.Component {
                                                 }
                                             }).then()
                                             window.location.reload();
+
                                         } else {
                                             this.setState({
                                                 showError: true,
