@@ -13,7 +13,6 @@ class NavigationBar extends React.Component {
         ]
     }
 
-
     logout = () => {
         const cookies = new Cookies();
         cookies.remove("logged_in");
