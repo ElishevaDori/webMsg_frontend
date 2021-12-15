@@ -90,8 +90,6 @@ class LoginPage extends React.Component {
                 }
             })
 
-
-
     }
     signUp = () =>{
         axios.get("http://localhost:8989/doesUserExist", {

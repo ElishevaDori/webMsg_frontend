@@ -11,6 +11,7 @@ class NewMessagePage extends React.Component {
         content: "",
         receiverId: " ",
         exists: false,
+        messages :[],
         response : ""
     }
     updateSubject = (e) => {
