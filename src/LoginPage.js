@@ -29,7 +29,7 @@ class LoginPage extends React.Component {
     login = () => {
         this.setState({validPhoneNumber:"",validStrongPassword:"",response:""})
 
-        axios.get("http://localhost:8989/doesUserExist", {
+        axios.get("http://localhost:8989/doesUsernameExists", {
             params: {
                 username: this.state.username
             }
@@ -93,7 +93,7 @@ class LoginPage extends React.Component {
 
     }
     signUp = () =>{
-        axios.get("http://localhost:8989/doesUserExist", {
+        axios.get("http://localhost:8989/doesUsernameExists", {
             params: {
                 username: this.state.username
             }
