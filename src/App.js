@@ -6,8 +6,8 @@ import {Route} from "react-router";
 import NavigationBar from "./NavigationBar";
 import LoginPage from "./LoginPage";
 import Cookies from "universal-cookie";
-import MessagePage from "./MessagePage";
 import NewMessagePage from "./NewMessagePage";
+import MessagesPage from "./MessagesPage";
 
 
 class App extends React.Component {
@@ -38,7 +38,7 @@ class App extends React.Component {
                                 <NavigationBar/>
                                 <Route path={"/"} component={ProfilePage} exact={true}/>
                                 <Route path={"/profile"} component={ProfilePage} exact={true}/>
-                                <Route path={"/myMessages"} component={MessagePage} exact={true}/>
+                                <Route path={"/MessagesPage"} component={MessagesPage} exact={true}/>
                                 <Route path={"/NewMessagePage"} component={NewMessagePage} exact={true}/>
 
                             </div>

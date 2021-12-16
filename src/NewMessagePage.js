@@ -1,35 +1,77 @@
 import './App.css';
 import * as React from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 
-class NewMessagePage extends React.Component{
-
-    state={
-        token :" ",
-        senderId :" ",
-        subject :" ",
-        content :" ",
-        receiverId:" "
-
+class NewMessagePage extends React.Component {
+    state = {
+        senderId: " ",
+        subject: "",
+        content: "",
+        receiverId: " ",
+        exists: false,
+        messages :[],
+        response : ""
     }
-    updateSubject = (e)=>{
+    updateSubject = (e) => {
         let sub = e.target.value;
         this.setState({
             subject: sub
         })
     }
-    updateContent = (e)=>{
+    updateContent = (e) => {
         let con = e.target.value;
         this.setState({
             content: con
         })
-
     }
-    updateReceiverId = (e)=> {
-        let rec = e.target.value;
+    doesUserExist =(e)=> {
+        const reciever = e.target.value;
         this.setState({
-            receiverId: rec
+            receiverId: reciever
+        }, () => {
+            axios.get("http://localhost:8989/doesUsernameExists", {
+                params: {
+                    username: this.state.receiverId
+                }
+
+            }).then((response) => {
+                this.setState({
+                    exists: response.data
+                })
+            })
+
         })
+    }
+    contentAndSubjectAreEmpty =()=>{
+        let empty = false;
+        if ((this.state.subject.length > 0) && (this.state.content.length > 0)){
+            empty = true;
+        }
+        return empty;
+    }
+
+    addMessage = () => {
+        const cookies = new Cookies();
+        axios.get("http://localhost:8989/add-message", {
+            params: {
+                token: cookies.get("logged_in"),
+                receiverPhone:this.state.receiverId,
+                title:this.state.subject,
+                content: this.state.content,
+            }
+        })
+            .then((response) => {
+                if (response.data) {
+                    this.setState({
+                        response : "message sent"
+                    })
+                    alert("message sent")
+                }else{
+                    this.setState({response : "couldn't send message"})
+                }
+            })
     }
 
     render() {
@@ -40,11 +82,11 @@ class NewMessagePage extends React.Component{
         }
         return (
             <div>
-                <b>Receiver:</b>
+                <b>For:</b>
                 <br/>
                 <input
                     placeholder={"enter phone number:"}
-                    onChange={this.updateReceiverId}
+                    onChange={this.doesUserExist}
                 />
                 <br/>
                 <b>subject:</b>
@@ -56,12 +98,13 @@ class NewMessagePage extends React.Component{
                 <br/>
                 <b>content:</b>
                 <br/>
-                <textarea cols="20" rows="10" id="textbox" type="text" name="textbox" placeholder={"enter your message here:)"}></textarea>
+                <textarea onChange={this.updateContent} cols="20" rows="10" id="textbox" type="text" name="textbox"
+                          placeholder={"enter your message here"}/>
                 <br/>
-                <button>SEND</button>
-
+                <button onClick={this.addMessage} disabled={!this.state.exists || !this.contentAndSubjectAreEmpty()}>SEND</button>
+                <br/>
+                <div>{this.state.response }</div>
             </div>
-
         )
     }
 }

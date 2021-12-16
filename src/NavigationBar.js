@@ -5,9 +5,9 @@ import Cookies from "universal-cookie";
 
 class NavigationBar extends React.Component {
     state = {
-        links: [{title: "Profile", path: "/profile"}
-            , {title: "About", path: "/about"},
-            {title: "My Messages", path: "/myMessages"},
+        links: [{title: "Profile", path: "/profile"},
+             {title: "About", path: "/about"},
+            {title: "My Messages", path: "/MessagesPage"},
             {title: "New Message", path: "/NewMessagePage"}
 
         ]
